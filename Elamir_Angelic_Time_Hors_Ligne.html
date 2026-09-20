@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Elamir Angelic Time">
+<title>Elamir Angelic Time — Hors ligne</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f7f5fb;color:#19151f}
+header{background:#fff;padding:26px 18px 18px;border-bottom:1px solid #eee}h1{margin:0;font-size:26px}p{margin:7px 0;color:#777}
+main{max-width:700px;margin:auto;padding:16px}.search{width:100%;padding:14px;border:1px solid #ddd;border-radius:14px;font-size:16px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:#fff;padding:13px;border-radius:18px;box-shadow:0 2px 10px #0000000b}.pic{height:110px;border-radius:14px;background:linear-gradient(135deg,#eee7ff,#fff);display:grid;place-items:center;font-size:40px}.name{font-weight:700;margin-top:9px}.price{font-weight:700;margin:5px 0 10px}button{width:100%;border:0;border-radius:12px;padding:11px;background:#6b4bc3;color:white;font-weight:700}
+.cart{position:sticky;bottom:12px;margin-top:16px;background:#19151f;color:#fff;padding:14px;border-radius:16px;display:flex;justify-content:space-between;align-items:center}.cart button{width:auto;background:#fff;color:#19151f}
+</style>
+</head>
+<body>
+<header><h1>✨ Elamir Angelic Time</h1><p>Mode hors ligne • aucune donnée mobile nécessaire</p></header>
+<main>
+<input id="search" class="search" placeholder="Rechercher…">
+<div id="products" class="grid"></div>
+<div class="cart"><span id="cartText">Panier : 0 article</span><button onclick="order()">Voir</button></div>
+</main>
+<script>
+const products=[
+{id:1,n:"Montre Angelic",p:29.99,i:"⌚"},{id:2,n:"Bracelet Elamir",p:14.99,i:"📿"},
+{id:3,n:"Sac élégant",p:34.99,i:"👜"},{id:4,n:"Collier céleste",p:19.99,i:"✨"},
+{id:5,n:"Lunettes",p:24.99,i:"🕶️"},{id:6,n:"Casquette",p:12.99,i:"🧢"}];
+let cart=[];
+const money=x=>x.toFixed(2).replace(".",",")+" €";
+function render(){let q=search.value.toLowerCase();products.filter(x=>x.n.toLowerCase().includes(q)).forEach(()=>{});productsEl.innerHTML=products.filter(x=>x.n.toLowerCase().includes(q)).map(x=>`<div class="card"><div class="pic">${x.i}</div><div class="name">${x.n}</div><div class="price">${money(x.p)}</div><button onclick="add(${x.id})">Ajouter</button></div>`).join("");update()}
+function add(id){cart.push(products.find(x=>x.id===id));update()}
+function update(){let t=cart.reduce((a,x)=>a+x.p,0);cartText.textContent=`Panier : ${cart.length} article${cart.length>1?"s":""} • ${money(t)}`}
+function order(){alert(cart.length?"Panier enregistré sur cet appareil. Aucun paiement Internet n'est utilisé.":"Ton panier est vide.")}
+const productsEl=document.getElementById("products");const search=document.getElementById("search");const cartText=document.getElementById("cartText");search.oninput=render;render();
+</script>
+</body>
+</html>
